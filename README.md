@@ -10,9 +10,9 @@ The key idea in this program is to implement a parallel version of a Markov chai
 * [Contact](#contact)
 
 ## General Information
-K-means clustering is an important unsupervised learning algorithm. However, the sequential k-means algorithm is inefficient to cluster the large real-world data. Thus I wrote the parallel distributed version of the K-means algorithm to decrease the wall time required.
+In this program, a system with one particle will perform random walk on a 2D Cartesian torus. In each iteration, the fraction in each cell can make a hop to its nearest neighbors based on given probabilities. This program will give the probability distribution of the whole system after convergence. 
 
-The algorithm has two important parts in each iteration after initialization: 1). Each process will perform local operations to obtain the the counter of clusters and summation of points of different clusters. MPI_All_Reduce was used to allow the communication between processors and add up the result. 2). Reset centroids using the result from 1) in root processor, and broadcast the new centroids to every processors.
+In each iteration, each cell will have transition with its neighbors, which means some fraction will move outside current cell while some fraction from nearest neighbor will move to the current cell.  
 
 ## File Description
 'main.c' is the main driver. 
