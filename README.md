@@ -4,8 +4,8 @@ The key idea in this program is to implement a parallel version of a Markov chai
 
 ## Table of contents
 * [General Information](#general-information)
-* [Surface Plot](#surface-plot)
 * [File Description](#file-description)
+* [Surface Plot](#surface-plot)
 * [Code Examples](#code-examples)
 * [Contact](#contact)
 
@@ -13,6 +13,16 @@ The key idea in this program is to implement a parallel version of a Markov chai
 In this program, a system with one particle will perform random walk on a 2D Cartesian torus. In each iteration, the fraction in each cell can make a hop to its nearest neighbors based on given probabilities. This program will give the probability distribution of the whole system after convergence. 
 
 In each iteration, each cell will have transition with its neighbors, which means some fraction will move outside current cell while some fraction from nearest neighbor will move to the current cell.  
+
+The key part of the iteration is the 'OneStep' function in aux.c. Below is the detailed explanation of this function: 
+
+1) For the inner cells (i.e., cells not on the boundary and don’t transit to any other processors), we only need to simply add the transition fraction (e.g., p_e \alpha) to its neighbor cells.
+
+2) For the ghost cells (i.e., cells on the boundary), we need to put the transition fraction in the send buffer (e.g., toEast). The send buffer which stores the array of ghost cells will be send to its neighbor processor.
+
+3) Next, processor will receive the array of transition fraction of ghost cells, and store them in the receive buffer (e.g., Dom->westNB).
+
+4) After all inter processor communication completed, transition fraction in the receiving buffer will be add to the boundary cells.
 
 ## File Description
 'main.c' is the main driver. 
