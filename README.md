@@ -34,23 +34,15 @@ To build the executable program main.ex, run:
 ```bash
 make
 ```
-The program could be run on the phiXX.cselabs.umn.edu cluster by running:
+The program could be run on the radish.cselabs.umn.edu cluster by running:
 ```bash
-mpirun [ -np X ] [ --hostfile <filename> ] <program>
+mpirun [ -np X ]  <program> qi
 ```
-where X is the number of processors, and -hostfile is used for specifying host nodes. For example:
+where X is the number of processors, and qi should divide X. For example:
 ```bash
-mpirun -np 16 -hostfile hostfile -map-by node  main.ex
+mpirun -np 4 main.ex 2
 ```
-where X = 16, <filename> is hosts, and -map-by node will load balance the processes across the available nodes, numbering each process in a round-robin fashion.
-
-To verify the correctness of the program, run:
-```bash
-python3 solver.py
-```
-The output should be
-```bash
-number of correct labels =  1021 / 1021
-```
+In this case, the program will run on a 2x2 processor grid.
+ 
 ## Contact
 Created by Buyun Liang [liang664@umn.edu] (https://www.linkedin.com/in/buyun-liang/) - feel free to contact me if you have any questions!
